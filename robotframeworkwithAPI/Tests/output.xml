@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.12.0 on win32)" generated="20231208 11:10:36.616" rpa="false" schemaversion="4">
+<suite id="s1" name="Auth" source="C:\Users\user\PycharmProjects\robotframeworkwithAPI\Tests\Auth.robot">
+<test id="s1-t1" name="GENERATE API TOKEN" line="6">
+<kw name="Generate Random email" library="keywords">
+<kw name="Generate Random String" library="String">
+<var>${random_string}</var>
+<arg>5</arg>
+<arg>[LOWER]</arg>
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<msg timestamp="20231208 11:10:37.147" level="INFO">${random_string} = paxsb</msg>
+<status status="PASS" starttime="20231208 11:10:37.147" endtime="20231208 11:10:37.147"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${random_email}</var>
+<arg>${random_string}@example.com</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231208 11:10:37.147" level="INFO">${random_email} = paxsb@example.com</msg>
+<status status="PASS" starttime="20231208 11:10:37.147" endtime="20231208 11:10:37.147"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${random_email}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20231208 11:10:37.147" level="INFO">${random_email} = paxsb@example.com</msg>
+<status status="PASS" starttime="20231208 11:10:37.147" endtime="20231208 11:10:37.147"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Random Email: ${random_email}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231208 11:10:37.147" level="INFO">Random Email: paxsb@example.com</msg>
+<status status="PASS" starttime="20231208 11:10:37.147" endtime="20231208 11:10:37.147"/>
+</kw>
+<status status="PASS" starttime="20231208 11:10:37.147" endtime="20231208 11:10:37.147"/>
+</kw>
+<kw name="Generate API token for Authentication" library="keywords">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>Simplebook</arg>
+<arg>${base_url}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20231208 11:10:37.147" level="INFO">Creating Session using : alias=Simplebook, url=https://simple-books-api.glitch.me, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20231208 11:10:37.147" endtime="20231208 11:10:37.147"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${body}</var>
+<arg>clientName=Ram89</arg>
+<arg>clientEmail=${random_email}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231208 11:10:37.147" level="INFO">${body} = {'clientName': 'Ram89', 'clientEmail': 'paxsb@example.com'}</msg>
+<status status="PASS" starttime="20231208 11:10:37.147" endtime="20231208 11:10:37.147"/>
+</kw>
+<kw name="POST On Session" library="RequestsLibrary">
+<var>${Response}</var>
+<arg>simplebook</arg>
+<arg>${Auth_endpoint}</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20231208 11:10:38.716" level="INFO">POST Request : url=https://simple-books-api.glitch.me/api-clients/ 
+ path_url=/api-clients/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '59', 'Content-Type': 'application/json'} 
+ body=b'{"clientName": "Ram89", "clientEmail": "paxsb@example.com"}' 
+ </msg>
+<msg timestamp="20231208 11:10:38.716" level="INFO">POST Response : url=https://simple-books-api.glitch.me/api-clients/ 
+ status=201, reason=Created 
+ headers={'Date': 'Fri, 08 Dec 2023 05:40:37 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '82', 'Connection': 'keep-alive', 'x-powered-by': 'Express', 'etag': 'W/"52-N6NcQ3ICWuIo1E76yZozOwyXd/w"'} 
+ body={"accessToken":"3b7bfd4c1c203cf2f278e28a81274b6a4c0bd1566b81f1041f5222ead7fc3484"} 
+ </msg>
+<msg timestamp="20231208 11:10:38.716" level="INFO">C:\Users\user\PycharmProjects\robotframeworkwithAPI\venv\Lib\site-packages\urllib3\connectionpool.py:1099: InsecureRequestWarning: Unverified HTTPS request is being made to host 'simple-books-api.glitch.me'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg timestamp="20231208 11:10:38.716" level="INFO">${Response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20231208 11:10:37.147" endtime="20231208 11:10:38.716"/>
+</kw>
+<kw name="Get Value From Json" library="JSONLibrary">
+<var>${token}</var>
+<arg>${Response.json()}</arg>
+<arg>$[accessToken]</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<msg timestamp="20231208 11:10:38.779" level="INFO">${token} = ['3b7bfd4c1c203cf2f278e28a81274b6a4c0bd1566b81f1041f5222ead7fc3484']</msg>
+<status status="PASS" starttime="20231208 11:10:38.716" endtime="20231208 11:10:38.779"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${token}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231208 11:10:38.779" endtime="20231208 11:10:38.779"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${global_variable}</var>
+<arg>${token[0]}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231208 11:10:38.779" level="INFO">${global_variable} = 3b7bfd4c1c203cf2f278e28a81274b6a4c0bd1566b81f1041f5222ead7fc3484</msg>
+<status status="PASS" starttime="20231208 11:10:38.779" endtime="20231208 11:10:38.779"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${global_variable}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20231208 11:10:38.779" level="INFO">${global_variable} = 3b7bfd4c1c203cf2f278e28a81274b6a4c0bd1566b81f1041f5222ead7fc3484</msg>
+<status status="PASS" starttime="20231208 11:10:38.779" endtime="20231208 11:10:38.779"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${global_variable}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231208 11:10:38.779" endtime="20231208 11:10:38.779"/>
+</kw>
+<status status="PASS" starttime="20231208 11:10:37.147" endtime="20231208 11:10:38.779"/>
+</kw>
+<kw name="Submit an order" library="keywords">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>simplebook</arg>
+<arg>${base_url}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20231208 11:10:38.779" level="INFO">Creating Session using : alias=simplebook, url=https://simple-books-api.glitch.me, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20231208 11:10:38.779" endtime="20231208 11:10:38.779"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${body1}</var>
+<arg>bookId=1</arg>
+<arg>customerName=Ram2</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231208 11:10:38.779" level="INFO">${body1} = {'bookId': '1', 'customerName': 'Ram2'}</msg>
+<status status="PASS" starttime="20231208 11:10:38.779" endtime="20231208 11:10:38.779"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Authorization=Bearer ${global_variable}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231208 11:10:38.779" level="INFO">${headers} = {'Authorization': 'Bearer 3b7bfd4c1c203cf2f278e28a81274b6a4c0bd1566b81f1041f5222ead7fc3484', 'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20231208 11:10:38.779" endtime="20231208 11:10:38.779"/>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<var>${response}</var>
+<arg>simplebook</arg>
+<arg>${submit-order-ep}</arg>
+<arg>json=${body1}</arg>
+<arg>headers=${headers}</arg>
+<doc>*DEPRECATED* Please use `POST On Session` instead.</doc>
+<msg timestamp="20231208 11:10:38.779" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
+<msg timestamp="20231208 11:10:40.355" level="INFO">POST Request : url=https://simple-books-api.glitch.me/orders 
+ path_url=/orders 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer 3b7bfd4c1c203cf2f278e28a81274b6a4c0bd1566b81f1041f5222ead7fc3484', 'Content-Type': 'application/json', 'Content-Length': '39'} 
+ body=b'{"bookId": "1", "customerName": "Ram2"}' 
+ </msg>
+<msg timestamp="20231208 11:10:40.355" level="INFO">POST Response : url=https://simple-books-api.glitch.me/orders 
+ status=201, reason=Created 
+ headers={'Date': 'Fri, 08 Dec 2023 05:40:39 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '50', 'Connection': 'keep-alive', 'x-powered-by': 'Express', 'etag': 'W/"32-6x54p8K82yfilyWYHEtmoUL4iLM"'} 
+ body={"created":true,"orderId":"BywFFmOQyUiXpKT6mvIgs"} 
+ </msg>
+<msg timestamp="20231208 11:10:40.355" level="INFO">C:\Users\user\PycharmProjects\robotframeworkwithAPI\venv\Lib\site-packages\urllib3\connectionpool.py:1099: InsecureRequestWarning: Unverified HTTPS request is being made to host 'simple-books-api.glitch.me'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg timestamp="20231208 11:10:40.355" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20231208 11:10:38.779" endtime="20231208 11:10:40.355"/>
+</kw>
+<kw name="Get Value From Json" library="JSONLibrary">
+<var>${order_id}</var>
+<arg>${response.json()}</arg>
+<arg>$[orderId]</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<msg timestamp="20231208 11:10:40.381" level="INFO">${order_id} = ['BywFFmOQyUiXpKT6mvIgs']</msg>
+<status status="PASS" starttime="20231208 11:10:40.355" endtime="20231208 11:10:40.381"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${order_id}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231208 11:10:40.381" endtime="20231208 11:10:40.382"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${global_order_id}</var>
+<arg>${order_id[0]}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231208 11:10:40.382" level="INFO">${global_order_id} = BywFFmOQyUiXpKT6mvIgs</msg>
+<status status="PASS" starttime="20231208 11:10:40.382" endtime="20231208 11:10:40.382"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${global_order_id}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20231208 11:10:40.382" level="INFO">${global_order_id} = BywFFmOQyUiXpKT6mvIgs</msg>
+<status status="PASS" starttime="20231208 11:10:40.382" endtime="20231208 11:10:40.382"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${global_order_id}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231208 11:10:40.382" endtime="20231208 11:10:40.382"/>
+</kw>
+<status status="PASS" starttime="20231208 11:10:38.779" endtime="20231208 11:10:40.382"/>
+</kw>
+<kw name="update an order" library="keywords">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>simplebook</arg>
+<arg>${base_url}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20231208 11:10:40.382" level="INFO">Creating Session using : alias=simplebook, url=https://simple-books-api.glitch.me, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20231208 11:10:40.382" endtime="20231208 11:10:40.382"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Authorization=Bearer ${global_variable}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231208 11:10:40.382" level="INFO">${headers} = {'Authorization': 'Bearer 3b7bfd4c1c203cf2f278e28a81274b6a4c0bd1566b81f1041f5222ead7fc3484', 'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20231208 11:10:40.382" endtime="20231208 11:10:40.382"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${body}</var>
+<arg>customerName=shiva</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231208 11:10:40.382" level="INFO">${body} = {'customerName': 'shiva'}</msg>
+<status status="PASS" starttime="20231208 11:10:40.382" endtime="20231208 11:10:40.382"/>
+</kw>
+<kw name="PATCH On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>simplebook</arg>
+<arg>${update_order_ep}/${global_order_id}</arg>
+<arg>json=${body}</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a PATCH request on a previously created HTTP Session.</doc>
+<msg timestamp="20231208 11:10:41.887" level="INFO">PATCH Request : url=https://simple-books-api.glitch.me/orders/BywFFmOQyUiXpKT6mvIgs 
+ path_url=/orders/BywFFmOQyUiXpKT6mvIgs 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer 3b7bfd4c1c203cf2f278e28a81274b6a4c0bd1566b81f1041f5222ead7fc3484', 'Content-Type': 'application/json', 'Content-Length': '25'} 
+ body=b'{"customerName": "shiva"}' 
+ </msg>
+<msg timestamp="20231208 11:10:41.887" level="INFO">PATCH Response : url=https://simple-books-api.glitch.me/orders/BywFFmOQyUiXpKT6mvIgs 
+ status=204, reason=No Content 
+ headers={'Date': 'Fri, 08 Dec 2023 05:40:40 GMT', 'Connection': 'keep-alive', 'x-powered-by': 'Express'} 
+ body=None 
+ </msg>
+<msg timestamp="20231208 11:10:41.887" level="INFO">C:\Users\user\PycharmProjects\robotframeworkwithAPI\venv\Lib\site-packages\urllib3\connectionpool.py:1099: InsecureRequestWarning: Unverified HTTPS request is being made to host 'simple-books-api.glitch.me'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg timestamp="20231208 11:10:41.895" level="INFO">${response} = &lt;Response [204]&gt;</msg>
+<status status="PASS" starttime="20231208 11:10:40.382" endtime="20231208 11:10:41.895"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231208 11:10:41.895" endtime="20231208 11:10:41.895"/>
+</kw>
+<status status="PASS" starttime="20231208 11:10:40.382" endtime="20231208 11:10:41.895"/>
+</kw>
+<status status="PASS" starttime="20231208 11:10:37.147" endtime="20231208 11:10:41.895"/>
+</test>
+<status status="PASS" starttime="20231208 11:10:36.623" endtime="20231208 11:10:41.895"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Auth">Auth</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20231208 11:10:38.779" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
+</errors>
+</robot>
